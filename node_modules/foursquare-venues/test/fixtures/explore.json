@@ -1,0 +1,276 @@
+{
+  "meta": {
+    "code": 200
+  },
+  "response": {
+    "suggestedFilters": {
+      "header": "Tap to show:",
+      "filters": [
+        {
+          "name": "With specials",
+          "key": "specials"
+        },
+        {
+          "name": "Open now",
+          "key": "openNow"
+        }
+      ]
+    },
+    "geocode": {
+      "what": "",
+      "where": "brussels",
+      "center": {
+        "lat": 50.85045,
+        "lng": 4.34878
+      },
+      "displayString": "Brussels, Belgium",
+      "cc": "BE",
+      "geometry": {
+        "bounds": {
+          "ne": {
+            "lat": 50.91412302,
+            "lng": 4.480948079999999
+          },
+          "sw": {
+            "lat": 50.76368702999999,
+            "lng": 4.2447218399999995
+          }
+        }
+      },
+      "slug": "brussels-belgium",
+      "longId": "72057594040728802"
+    },
+    "headerLocation": "Brussels",
+    "headerFullLocation": "Brussels",
+    "headerLocationGranularity": "city",
+    "totalResults": 250,
+    "suggestedBounds": {
+      "ne": {
+        "lat": 50.89974816235868,
+        "lng": 4.444631253017501
+      },
+      "sw": {
+        "lat": 50.80260387725859,
+        "lng": 4.291280171495888
+      }
+    },
+    "groups": [
+      {
+        "type": "Recommended Places",
+        "name": "recommended",
+        "items": [
+          {
+            "reasons": {
+              "count": 0,
+              "items": []
+            },
+            "venue": {
+              "id": "4ade0d9cf964a520866c21e3",
+              "name": "AB Ancienne Belgique",
+              "contact": {
+                "phone": "+3225482484",
+                "formattedPhone": "+32 2 548 24 84"
+              },
+              "location": {
+                "address": "Bld. Anspachlaan 110",
+                "lat": 50.8473341683769,
+                "lng": 4.348633289337158,
+                "postalCode": "1000",
+                "cc": "BE",
+                "city": "Brussels",
+                "country": "Belgium"
+              },
+              "categories": [
+                {
+                  "id": "5032792091d4c4b30a586d5c",
+                  "name": "Concert Hall",
+                  "pluralName": "Concert Halls",
+                  "shortName": "Concert Hall",
+                  "icon": {
+                    "prefix": "https://ss1.4sqi.net/img/categories_v2/arts_entertainment/musicvenue_",
+                    "suffix": ".png"
+                  },
+                  "primary": true
+                }
+              ],
+              "verified": true,
+              "stats": {
+                "checkinsCount": 28272,
+                "usersCount": 13660,
+                "tipCount": 90
+              },
+              "url": "http://www.abconcerts.be",
+              "likes": {
+                "count": 1212,
+                "groups": [
+                  {
+                    "type": "others",
+                    "count": 1212,
+                    "items": []
+                  }
+                ],
+                "summary": "1212 likes"
+              },
+              "rating": 9.55,
+              "hours": {
+                "isOpen": false
+              },
+              "specials": {
+                "count": 0,
+                "items": []
+              },
+              "photos": {
+                "count": 1639,
+                "groups": []
+              },
+              "hereNow": {
+                "count": 1,
+                "summary": "1 person here",
+                "groups": [
+                  {
+                    "type": "others",
+                    "name": "Other people here",
+                    "count": 1,
+                    "items": []
+                  }
+                ]
+              },
+              "venuePage": {
+                "id": "49133383"
+              }
+            },
+            "tips": [
+              {
+                "id": "4cc876bf7151721e782e6137",
+                "createdAt": 1288206015,
+                "text": "Best concert venue of Belgium!",
+                "canonicalUrl": "https://foursquare.com/item/4cc876bf7151721e782e6137",
+                "likes": {
+                  "count": 57,
+                  "groups": [],
+                  "summary": "57 likes"
+                },
+                "todo": {
+                  "count": 0
+                },
+                "user": {
+                  "id": "1086991",
+                  "firstName": "Jotie",
+                  "lastName": "B.",
+                  "gender": "male",
+                  "photo": {
+                    "prefix": "https://irs3.4sqi.net/img/user/",
+                    "suffix": "/1FOHD3WKPRI31BUY.jpg"
+                  }
+                }
+              }
+            ],
+            "referralId": "e-0-4ade0d9cf964a520866c21e3-0"
+          },
+          {
+            "reasons": {
+              "count": 0,
+              "items": []
+            },
+            "venue": {
+              "id": "4b112e28f964a520a07823e3",
+              "name": "Monk",
+              "contact": {
+                "phone": "+3225117511",
+                "formattedPhone": "+32 2 511 75 11"
+              },
+              "location": {
+                "address": "Sint-Katelijnestraat 42 Rue Sainte-Catherine",
+                "lat": 50.850158869104945,
+                "lng": 4.3474531173706055,
+                "postalCode": "1000",
+                "cc": "BE",
+                "city": "Brussels",
+                "country": "Belgium"
+              },
+              "categories": [
+                {
+                  "id": "4bf58dd8d48988d116941735",
+                  "name": "Bar",
+                  "pluralName": "Bars",
+                  "shortName": "Bar",
+                  "icon": {
+                    "prefix": "https://ss1.4sqi.net/img/categories_v2/nightlife/bar_",
+                    "suffix": ".png"
+                  },
+                  "primary": true
+                }
+              ],
+              "verified": false,
+              "stats": {
+                "checkinsCount": 6156,
+                "usersCount": 3118,
+                "tipCount": 42
+              },
+              "price": {
+                "tier": 2,
+                "message": "Moderate",
+                "currency": "€"
+              },
+              "likes": {
+                "count": 186,
+                "groups": [
+                  {
+                    "type": "others",
+                    "count": 186,
+                    "items": []
+                  }
+                ],
+                "summary": "186 likes"
+              },
+              "rating": 9.48,
+              "hours": {
+                "status": "Open until 2:00am",
+                "isOpen": true
+              },
+              "specials": {
+                "count": 0,
+                "items": []
+              },
+              "photos": {
+                "count": 201,
+                "groups": []
+              },
+              "hereNow": {
+                "count": 0,
+                "summary": "0 people here",
+                "groups": []
+              }
+            },
+            "tips": [
+              {
+                "id": "4c43434aa5c5ef3bd7b5b06f",
+                "createdAt": 1279476554,
+                "text": "Great Flemish café in the centre of Brussels!",
+                "canonicalUrl": "https://foursquare.com/item/4c43434aa5c5ef3bd7b5b06f",
+                "likes": {
+                  "count": 18,
+                  "groups": [],
+                  "summary": "18 likes"
+                },
+                "todo": {
+                  "count": 5
+                },
+                "user": {
+                  "id": "1771901",
+                  "firstName": "StoffelRat",
+                  "gender": "male",
+                  "photo": {
+                    "prefix": "https://irs2.4sqi.net/img/user/",
+                    "suffix": "/GUMKAVQWPXBAUOMD.jpg"
+                  }
+                }
+              }
+            ],
+            "referralId": "e-0-4b112e28f964a520a07823e3-1"
+          }
+        ]
+      }
+    ]
+  }
+}

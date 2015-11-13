@@ -1,0 +1,176 @@
+{
+  "meta": {
+    "code": 200
+  },
+  "response": {
+    "venues": [
+      {
+        "id": "509ee5bbe4b0f56d613db4a9",
+        "name": "BXL Zoute",
+        "contact": {
+          "phone": "6466929282",
+          "formattedPhone": "(646) 692-9282",
+          "twitter": "bxlcafenyc"
+        },
+        "location": {
+          "address": "50 W 22nd St",
+          "crossStreet": "at 6th Ave",
+          "lat": 40.742038215644726,
+          "lng": -73.99254976644094,
+          "postalCode": "10010",
+          "cc": "US",
+          "city": "New York",
+          "state": "NY",
+          "country": "United States"
+        },
+        "categories": [
+          {
+            "id": "4bf58dd8d48988d116941735",
+            "name": "Bar",
+            "pluralName": "Bars",
+            "shortName": "Bar",
+            "icon": {
+              "prefix": "https://ss1.4sqi.net/img/categories_v2/nightlife/bar_",
+              "suffix": ".png"
+            },
+            "primary": true
+          }
+        ],
+        "verified": false,
+        "stats": {
+          "checkinsCount": 2220,
+          "usersCount": 1468,
+          "tipCount": 26
+        },
+        "delivery": {
+          "url": "http://www.seamless.com/food-delivery/restaurant.27251.r?a=1026&utm_source=Foursquare&utm_medium=affiliate&utm_campaign=SeamlessOrderDeliveryLink",
+          "provider": {
+            "name": "seamless"
+          }
+        },
+        "reservations": {
+          "url": "http://www.opentable.com/single.aspx?rid=101122&ref=9601"
+        },
+        "menu": {
+          "type": "Menu",
+          "label": "Menu",
+          "anchor": "View Menu",
+          "url": "https://foursquare.com/v/bxl-zoute/509ee5bbe4b0f56d613db4a9/menu",
+          "mobileUrl": "https://foursquare.com/v/509ee5bbe4b0f56d613db4a9/device_menu"
+        },
+        "specials": {
+          "count": 0,
+          "items": []
+        },
+        "hereNow": {
+          "count": 0,
+          "summary": "0 people here",
+          "groups": []
+        },
+        "referralId": "v-1398177032"
+      },
+      {
+        "id": "4558b83bf964a5204b3d1fe3",
+        "name": "New York Health & Racquet Club",
+        "contact": {
+          "phone": "2129892300",
+          "formattedPhone": "(212) 989-2300",
+          "twitter": "nyhrc"
+        },
+        "location": {
+          "address": "60 W 23rd St",
+          "crossStreet": "at 6th Ave",
+          "lat": 40.742710588888876,
+          "lng": -73.99267028247417,
+          "postalCode": "10010",
+          "cc": "US",
+          "city": "New York",
+          "state": "NY",
+          "country": "United States"
+        },
+        "categories": [
+          {
+            "id": "4bf58dd8d48988d176941735",
+            "name": "Gym",
+            "pluralName": "Gyms",
+            "shortName": "Gym",
+            "icon": {
+              "prefix": "https://ss1.4sqi.net/img/categories_v2/building/gym_",
+              "suffix": ".png"
+            },
+            "primary": true
+          }
+        ],
+        "verified": true,
+        "stats": {
+          "checkinsCount": 30113,
+          "usersCount": 2289,
+          "tipCount": 54
+        },
+        "url": "http://nyhrc.com/find-club/23rd-street",
+        "menu": {
+          "type": "Menu",
+          "label": "Menu",
+          "anchor": "View Menu",
+          "url": "https://foursquare.com/v/new-york-health--racquet-club/4558b83bf964a5204b3d1fe3/menu",
+          "mobileUrl": "https://foursquare.com/v/4558b83bf964a5204b3d1fe3/device_menu"
+        },
+        "specials": {
+          "count": 0,
+          "items": []
+        },
+        "hereNow": {
+          "count": 6,
+          "summary": "6 people here",
+          "groups": [
+            {
+              "type": "others",
+              "name": "Other people here",
+              "count": 6,
+              "items": []
+            }
+          ]
+        },
+        "venuePage": {
+          "id": "36095134"
+        },
+        "storeId": "",
+        "referralId": "v-1398177032"
+      }
+    ],
+    "neighborhoods": [],
+    "confident": false,
+    "geocode": {
+      "what": "",
+      "where": "new york",
+      "feature": {
+        "cc": "US",
+        "name": "New York",
+        "displayName": "New York, NY, United States",
+        "matchedName": "New York, NY, United States",
+        "highlightedName": "<b>New York</b>, NY, United States",
+        "woeType": 7,
+        "slug": "new-york-city-new-york",
+        "id": "geonameid:5128581",
+        "longId": "72057594043056517",
+        "geometry": {
+          "center": {
+            "lat": 40.742185,
+            "lng": -73.992602
+          },
+          "bounds": {
+            "ne": {
+              "lat": 40.882214,
+              "lng": -73.907
+            },
+            "sw": {
+              "lat": 40.679548,
+              "lng": -74.047285
+            }
+          }
+        }
+      },
+      "parents": []
+    }
+  }
+}

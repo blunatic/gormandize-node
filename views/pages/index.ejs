@@ -1,0 +1,225 @@
+<!-- views/pages/index.ejs -->
+<!DOCTYPE html>
+<html lang="en" ng-app="gormandize">
+	<head>
+		<title>gormandize</title>
+		<% include ../partials/head %>
+	</head>
+	<body ng-controller="MainController" ng-init="load()">
+		<!-- Navbar -->
+		<% include ../partials/navbar %>
+		<!-- Header -->
+		<header>
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="intro-text">
+							<div class="intro-lead-in">Where to eat?</div>
+							<div class="intro-heading">We're here to help!</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="search col-md-6 col-md-offset-3">
+						<div class="search-input-wrapper">
+							<div class="search-input-location" ng-click="getLocation()" >
+								<img id="loading" ng-show="loadingLoc" src="../images/ajax-loader.gif"/>
+								<i class="fa fa-location-arrow fa-2x" ng-show="!loadingLoc"></i>
+							</div>
+							<input type="text" ng-model="location" ng-value="geoPosition" class="form-control" id="searchLocation" placeholder="What's your location?" aria-describedby="sizing-addon2" required></input>
+							<input type="text" ng-model="query" ng-change="change()" id="searchQuery" class="form-control" placeholder="What kind of food?" aria-describedby="sizing-addon2" required></input>
+							<div class="search-input-magnify">
+								<img id="loading" ng-show="loadingQuery" src="../images/ajax-loader.gif"/>
+								<i class="fa fa-search fa-2x" ng-show="!loadingQuery"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+				<p id="noResults" ng-cloak ng-show="noResults"> No results found! Please try another search.</p>
+			</div>
+		</header>
+		<!-- How To section -->
+		<div class="how-to">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12 text-center">
+						<h3 class="section-heading">Find a new favorite spot</h3>
+						<h4 class="section-subheading text-muted">Gormandize helps you analyze restaurants.</h4>
+					</div>
+				</div>
+				<div class="row text-center">
+					<div class="col-md-4">
+						<span class="fa-stack fa-4x">
+							<i class="fa fa-map-marker fa-lg brand-color"></i>
+						</span>
+						<h4>1. Enter Your Location </h4>
+						<p class="text-muted">Enter your current location - be sure to specify as much information as possible. <br><br> Example: 822 Irving Street, San Francisco, CA</p>
+					</div>
+					<div class="col-md-4">
+						<span class="fa-stack fa-4x">
+							<i class="fa fa-cutlery fa-stack-lg brand-color"></i>
+						</span>
+						<h4>2. Enter a Search Term </h4>
+						<p class="text-muted">Enter whatever type of food or restaurant you're hungry for. <br>Examples: burritos, ice cream, tapas, sandwiches, etc.</p>
+					</div>
+					<div class="col-md-4">
+						<span class="fa-stack fa-4x">
+							<i class="fa fa-bar-chart fa-stack-lg brand-color"></i>
+						</span>
+						<h4>3. Analyze the Results! </h4>
+						<p class="text-muted">Scroll down to view and analyze search results from both Yelp and Foursquare. The charts will help you compare nearby restaurants to the location you searched. Happy eating! </p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Map section-->
+		<div class="map" ng-show="displayMap">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-12" id="map">
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Yelp Results section -->
+		<div class="yelp-results" ng-show="displayTable">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-10 col-md-offset-1">
+						<h3 class="results-heading"><i class="fa fa-yelp" id="fa-yelp"></i> Yelp Results</h3>
+						<table datatable="ng" dt-options="dtOptions" dt-column-defs="dtColumnDefs" class="stripe" cellspacing="0" width="100%">
+							<!--Table Headers-->
+							<thead>
+								<tr>
+									<th> Result #</th>
+									<th> Restaurant</th>
+									<th> Address</th>
+									<th> Phone #</th>
+									<th> Distance</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="venue in yelpResults.businesses">
+									<!--Insert Yelp Results into the table in rows here-->
+									<td>{{$index + 1}}</td>
+									<td><a ng-href="{{venue.url}}" target="__blank">{{venue.name}}</a></td>
+									<td>{{venue.location.address[0]}}</td>
+									<td>{{venue.display_phone}}</td>
+									<td>{{Math.round(100 * (venue.distance * 0.00062137)) / 100}} miles away</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Yelp Tips section -->
+		<div class="yelp-tips" ng-show="displayTips">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="row">
+							<div class="col-lg-12 text-center">
+								<h3 class="section-heading">Top restaurant tips</h3>
+								<h4 class="section-subheading text-muted">Here's what users are saying on Yelp...</h4>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-4 text-center" ng-repeat="venue in yelpResults.businesses | limitTo: 3">
+								<div class="tips-wrapper">
+									<div class="tips-image">
+										<img ng-src="{{venue.image_url}}" class="img-circle"/>
+									</div>
+									<div class="media-body">
+										<h3 class="media-heading text-center">{{venue.name}}</h3>
+										<p class="text-center text-muted"><i>{{venue.location.neighborhoods[0]}}</i></p>
+										<hr style="width: 15%;">
+										<p class="snippet-text text-muted">&nbsp;&nbsp;{{venue.snippet_text}}</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Foursquare Results section -->
+		<div class="fs-results" ng-show="displayTable">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-10 col-md-offset-1">
+						<h3 class="results-heading pull-right"><i class="fa fa-foursquare" id="fa-fs"></i> Foursquare Results</h3>
+						<table datatable="ng" dt-options="dtOptions" dt-column-defs="dtColumnDefs" class="stripe" cellspacing="0" width="100%">
+							<!--Table Headers-->
+							<thead>
+								<tr>
+									<th> Result #</th>
+									<th> Restaurant</th>
+									<th> Address</th>
+									<th> Phone #</th>
+									<th> Menu URL</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="venue in fsResults.groups[0].items">
+									<!--Insert Foursquare Results into the table in rows here-->
+									<td>{{$index + 1}}</td>
+									<td><a ng-href="{{venue.venue.id}}" target="__blank">{{venue.venue.name}}</a></td>
+									<td>{{venue.venue.location.address}}</td>
+									<td>{{venue.venue.contact.formattedPhone}}</td>
+									<td><a ng-href="{{venue.venue.menu.url}}" target="__blank">{{venueMenus[$index]}}</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Foursquare Images section -->
+		<div class="fs-images" ng-show="displayPhotos">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-1">
+						<button class="btn btn-default btn-lg vert-btn" ng-click="previousPhoto()"><span class="glyphicon glyphicon-chevron-left"></span></button>
+					</div>
+					<div class="col-md-10 fs-images-wrapper">
+						<div class="fs-images-repeat" ng-repeat="photo in currentVenuePhotos.items">
+							<div class="each-image">
+								<img ng-src="{{photo.prefix + '150x150' + photo.suffix}}"/>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-1">
+					<button class="btn btn-default btn-lg vert-btn" ng-click="nextPhoto()"><span class="glyphicon glyphicon-chevron-right"></span ></button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Charts section -->
+	<div class="chart" ng-show="displayCharts">
+		<div class="container">
+			<div class="row" id="chart-row-1">
+				<div class="col-md-12">
+					<h3 class="results-heading text-center"><i class="fa fa-yelp fa-1x" id="fa-yelp"></i> Total Number of Reviews vs. Average Rating for Top 10 Results</h3>
+					<div id="chart-1"></div>
+				</div>
+			</div>
+			<div class="row" id="chart-row-2">
+				<div class="col-md-12">
+					<h3 class="results-heading"><i class="fa fa-foursquare fa-1x" id="fa-fs"></i> Restaurant Average Rating vs. Restaurant Price Tier</h3>
+					<div id="chart-2"></div>
+				</div>
+			</div>
+			<div class="row" id="chart-row-3">
+				<div class="col-md-12">
+					<h3 class="results-heading text-right"><i class="fa fa-foursquare fa-1x" id="fa-fs"></i> Total Number of Checkins for Top 10 Results</h3>
+					<div id="chart-3"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer>
+		<% include ../partials/footer %>
+	</footer>
+</body>
+</html>
