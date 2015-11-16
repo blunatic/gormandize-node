@@ -148,7 +148,7 @@
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-md-10 col-md-offset-1">
-						<h3 class="results-heading pull-right"><i class="fa fa-foursquare" id="fa-fs"></i> Foursquare Results</h3>
+						<h3 class="section-heading pull-right"><i class="fa fa-foursquare" id="fa-fs"></i> Foursquare Results</h3>
 						<table datatable="ng" dt-options="dtOptions" dt-column-defs="dtColumnDefs" class="stripe" cellspacing="0" width="100%">
 							<!--Table Headers-->
 							<thead>
@@ -177,10 +177,18 @@
 		</div>
 		<!-- Foursquare Images section -->
 		<div class="fs-images" ng-show="displayPhotos">
-			<div class="container-fluid">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12 text-center">
+						<h3 class="section-heading">{{fsResults.groups[0].items[currentVenueID].venue.name}}</h3>
+						<h4 class="section-subheading text-muted">User Photos</h4>
+					</div>
+				</div>
 				<div class="row">
 					<div class="col-md-1">
-						<button class="btn btn-default btn-lg vert-btn" ng-click="previousPhoto()"><span class="glyphicon glyphicon-chevron-left"></span></button>
+						<div class="vcenter">
+							<button class="btn btn-default btn-lg vert-btn" ng-click="previousPhoto()"><span class="glyphicon glyphicon-chevron-left"></span></button>
+						</div>
 					</div>
 					<div class="col-md-10 fs-images-wrapper">
 						<div class="fs-images-repeat" ng-repeat="photo in currentVenuePhotos.items">
@@ -190,36 +198,39 @@
 						</div>
 					</div>
 					<div class="col-md-1">
-					<button class="btn btn-default btn-lg vert-btn" ng-click="nextPhoto()"><span class="glyphicon glyphicon-chevron-right"></span ></button>
+						<div class="vcenter">
+						<button class="btn btn-default btn-lg vert-btn" ng-click="nextPhoto()"><span class="glyphicon glyphicon-chevron-right"></span ></button>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- Charts section -->
-	<div class="chart" ng-show="displayCharts">
-		<div class="container">
-			<div class="row" id="chart-row-1">
-				<div class="col-md-12">
-					<h3 class="results-heading text-center"><i class="fa fa-yelp fa-1x" id="fa-yelp"></i> Total Number of Reviews vs. Average Rating for Top 10 Results</h3>
-					<div id="chart-1"></div>
-				</div>
+</div>
+<!-- Charts section -->
+<div class="chart" ng-show="displayCharts">
+	<div class="container">
+		<div class="row" id="chart-row-1">
+			<div class="col-md-12">
+				<h3 class="section-heading text-center"><i class="fa fa-yelp fa-1x" id="fa-yelp"></i> Total Number of Reviews vs. Average Rating for Top 10 Results</h3>
+				<div id="chart-1"></div>
 			</div>
-			<div class="row" id="chart-row-2">
-				<div class="col-md-12">
-					<h3 class="results-heading"><i class="fa fa-foursquare fa-1x" id="fa-fs"></i> Restaurant Average Rating vs. Restaurant Price Tier</h3>
-					<div id="chart-2"></div>
-				</div>
+		</div>
+		<div class="row" id="chart-row-2">
+			<div class="col-md-12">
+				<h3 class="section-heading"><i class="fa fa-foursquare fa-1x" id="fa-fs"></i> Restaurant Average Rating vs. Restaurant Price Tier</h3>
+				<div id="chart-2"></div>
 			</div>
-			<div class="row" id="chart-row-3">
-				<div class="col-md-12">
-					<h3 class="results-heading text-right"><i class="fa fa-foursquare fa-1x" id="fa-fs"></i> Total Number of Checkins for Top 10 Results</h3>
-					<div id="chart-3"></div>
-				</div>
+		</div>
+		<div class="row" id="chart-row-3">
+			<div class="col-md-12">
+				<h3 class="section-heading text-right"><i class="fa fa-foursquare fa-1x" id="fa-fs"></i> Total Number of Checkins for Top 10 Results</h3>
+				<div id="chart-3"></div>
 			</div>
 		</div>
 	</div>
-	<footer>
-		<% include ../partials/footer %>
-	</footer>
+</div>
+<footer>
+	<% include ../partials/footer %>
+</footer>
 </body>
 </html>

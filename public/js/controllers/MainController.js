@@ -3,14 +3,13 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
     var pendingSearch;
     var map;
     var markers = [];
+    var venuesLayerGroup = new L.layerGroup();
+
     $scope.Math = window.Math;
 
     $scope.yelpResults = null;
     $scope.fsResults = null;
     $scope.fsPhotos = null;
-
-    $scope.date = new Date();
-
 
     $scope.load = function() {
         // load map
@@ -51,6 +50,15 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
     // show position on map based on user location entered
     function showPosition(position) {
         var locCurrent = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        map.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), 15, {
+            animate: true
+        });
+        var singleMarker = new L.marker([position.coords.latitude, position.coords.longitude]).addTo(map)
+            .bindPopup('<strong>Your Location!</strong><br>Gormandize Example.')
+            .openPopup();
+
+        markers.push(singleMarker);
+        map.addLayer(markers[0]);
 
         var geocoder = new google.maps.Geocoder();
         geocoder.geocode({
@@ -64,6 +72,8 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
             $scope.loadingLoc = false;
             $scope.$apply();
         });
+
+
     }
 
     $scope.change = function() {
@@ -84,6 +94,11 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
             if (response.status == 200) {
                 $scope.yelpResults = response.data.yelp_response;
                 $scope.fsResults = response.data.fs_response.response;
+
+                // clear out any previous venues on map
+                venuesLayerGroup.clearLayers();
+
+                // display results from both Yelp and Foursquare
                 displayYelpResults($scope.yelpResults);
                 displayFoursquareResults($scope.fsResults);
             } else {
@@ -101,19 +116,29 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
         $scope.displayTips = true;
         $scope.displayCharts = true;
 
-        // empty markers from map before a new search is done
-        for (var j = 0; j < markers.length; j++) {
-            map.removeLayer(markers[j]);
-        }
-
         // sanitize phone number (remove '+1-)
+        // & add each venue marker to map
         for (var i = 0; i < results.businesses.length; i++) {
             if (typeof(results.businesses[i].display_phone) != "undefined") {
                 results.businesses[i].display_phone = results.businesses[i].display_phone.replace('+1-', '');
             } else {
                 results.businesses[i].display_phone = "Not Available";
             }
+
+            var new_latitude = results.businesses[i].location.coordinate.latitude;
+            var new_longitude = results.businesses[i].location.coordinate.longitude;
+
+            var nextMarker = L.marker([new_latitude, new_longitude]).bindPopup('<strong>' + results.businesses[i].name + '</strong><br>' + results.businesses[i].location.address);
+            var venueName = results.businesses[i].name;
+
+            if ($.inArray(venueName, markers) == -1) {
+                markers.push(venueName);
+                venuesLayerGroup.addLayer(nextMarker);
+                console.log("Markers contains: " + markers);
+            }
         }
+
+        map.addLayer(venuesLayerGroup);
 
         // grab only top 10 business results for chart 1
         // limit if more than 10 results
@@ -188,7 +213,7 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
         $scope.venueIds = [];
 
         // display first venue's photos by default
-        $scope.currentVenue = 0;
+        $scope.currentVenueID = 0;
 
         // sanitize venue urls
         for (var i = 0; i < results.groups[0].items.length; i++) {
@@ -201,10 +226,25 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
             } else {
                 $scope.venueMenus[i] = "View Menu";
             }
+
+            var new_latitude = results.groups[0].items[i].venue.location.lat;
+            var new_longitude = results.groups[0].items[i].venue.location.lng;
+
+            var nextMarker = L.marker([new_latitude, new_longitude]).bindPopup('<strong>' + results.groups[0].items[i].venue.name + '</strong><br>' + results.groups[0].items[i].venue.location.address);
+            var venueName = results.groups[0].items[i].venue.name;
+
+            // check if marker has already been added to map for each venue (by name)
+            if ($.inArray(venueName, markers) == -1) {
+                markers.push(venueName);
+                venuesLayerGroup.addLayer(nextMarker);
+                console.log("Markers contains: " + markers);
+            }
         }
 
+        map.addLayer(venuesLayerGroup);
+
         // display first venue's photos by default
-        displayFoursquarePhotos($scope.venueIds[$scope.currentVenue]);
+        displayFoursquarePhotos($scope.venueIds[$scope.currentVenueID]);
 
 
         var chart2data = [];
@@ -320,12 +360,12 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
     function displayFoursquarePhotos(venueId) {
         $scope.displayPhotos = true;
 
-        console.log("current is " + $scope.currentVenue);
-        if ($scope.currentVenue >= $scope.venueIds.length) {
-            $scope.currentVenue = 0;
+        console.log("current is " + $scope.currentVenueID);
+        if ($scope.currentVenueID >= $scope.venueIds.length) {
+            $scope.currentVenueID = 0;
         }
-        if ($scope.currentVenue < 0) {
-            $scope.currentVenue = $scope.venueIds.length - 1;
+        if ($scope.currentVenueID < 0) {
+            $scope.currentVenueID = $scope.venueIds.length - 1;
         }
 
         photosService.getPhotos(venueId).then(function(response) {
@@ -339,12 +379,12 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
     }
 
     $scope.nextPhoto = function() {
-        $scope.currentVenue++;
-        displayFoursquarePhotos($scope.venueIds[$scope.currentVenue]);
+        $scope.currentVenueID++;
+        displayFoursquarePhotos($scope.venueIds[$scope.currentVenueID]);
     };
 
     $scope.previousPhoto = function() {
-        $scope.currentVenue--;
-        displayFoursquarePhotos($scope.venueIds[$scope.currentVenue]);
+        $scope.currentVenueID--;
+        displayFoursquarePhotos($scope.venueIds[$scope.currentVenueID]);
     };
 });

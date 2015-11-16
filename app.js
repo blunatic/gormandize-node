@@ -121,7 +121,7 @@ router.get('/search?', function(req, res) {
 router.get('/fs_photos?', function(req, res) {
     var venueId = req.query.venue;
 
-    foursquare.venues.photos(venueId, {limit: 21}, function(error, response) {
+    foursquare.venues.photos(venueId, {limit: 18}, function(error, response) {
         if (error) {
             console.log(error);
             res.send("Error!" + error);

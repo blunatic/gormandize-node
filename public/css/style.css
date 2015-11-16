@@ -266,7 +266,6 @@ input[placeholder]::-webkit-input-placeholder{color:rgba(0,0,0,0.3);}
 * FS Images
 */
 
-
 .fs-images{
   text-align: center;
   padding: 50px 0px 50px 0px;
@@ -280,6 +279,32 @@ input[placeholder]::-webkit-input-placeholder{color:rgba(0,0,0,0.3);}
   padding-bottom: 5px;
 }
 
+
+.fs-images-wrapper{
+  min-height: 465px;
+}
+
+@media(min-width: 993px){
+  .vcenter{
+  margin-top: 50%;
+  }
+}
+
+.vert-btn{
+  font-size: 33px;
+  border: none;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+.vert-btn:hover, .vert-btn:active{
+  background-color:white;
+  color: #F89406;
+}
+
+.vert-btn:focus{
+  background-color: white;
+}
 
 /*
 * Charts Section
