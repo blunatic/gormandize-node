@@ -361,12 +361,6 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
         $scope.displayPhotos = true;
 
         console.log("current is " + $scope.currentVenueID);
-        if ($scope.currentVenueID >= $scope.venueIds.length) {
-            $scope.currentVenueID = 0;
-        }
-        if ($scope.currentVenueID < 0) {
-            $scope.currentVenueID = $scope.venueIds.length - 1;
-        }
 
         photosService.getPhotos(venueId).then(function(response) {
             console.log(response);
@@ -380,11 +374,23 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
 
     $scope.nextPhoto = function() {
         $scope.currentVenueID++;
+        if ($scope.currentVenueID >= $scope.venueIds.length) {
+            $scope.currentVenueID = 0;
+        }
+        if ($scope.currentVenueID < 0) {
+            $scope.currentVenueID = $scope.venueIds.length - 1;
+        }
         displayFoursquarePhotos($scope.venueIds[$scope.currentVenueID]);
     };
 
     $scope.previousPhoto = function() {
         $scope.currentVenueID--;
+        if ($scope.currentVenueID >= $scope.venueIds.length) {
+            $scope.currentVenueID = 0;
+        }
+        if ($scope.currentVenueID < 0) {
+            $scope.currentVenueID = $scope.venueIds.length - 1;
+        }
         displayFoursquarePhotos($scope.venueIds[$scope.currentVenueID]);
     };
 });
