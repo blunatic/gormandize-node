@@ -23,7 +23,8 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
         });
 
         L.tileLayer('http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+            detectRetina: true
         }).addTo(map);
 
         $scope.dtOptions = DTOptionsBuilder.newOptions().withOption('bFilter', false).withDisplayLength(5).withLanguage({
@@ -50,15 +51,9 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
     // show position on map based on user location entered
     function showPosition(position) {
         var locCurrent = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-        map.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), 15, {
+        map.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), 12, {
             animate: true
         });
-        var singleMarker = new L.marker([position.coords.latitude, position.coords.longitude]).addTo(map)
-            .bindPopup('<strong>Your Location!</strong><br>Gormandize Example.')
-            .openPopup();
-
-        markers.push(singleMarker);
-        map.addLayer(markers[0]);
 
         var geocoder = new google.maps.Geocoder();
         geocoder.geocode({
@@ -89,6 +84,9 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
         $scope.loadingQuery = true;
         $scope.noResults = false;
 
+        // clear out markers each time
+        markers.length = 0;
+
         searchService.getSearch($scope.query, $scope.location).then(function(response) {
             console.log(response);
             if (response.status == 200) {
@@ -116,6 +114,11 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
         $scope.displayTips = true;
         $scope.displayCharts = true;
 
+        var orangeMarker = L.AwesomeMarkers.icon({
+            prefix: 'fa',
+            icon: 'yelp',
+            markerColor: 'orange'
+        });
         // sanitize phone number (remove '+1-)
         // & add each venue marker to map
         for (var i = 0; i < results.businesses.length; i++) {
@@ -128,15 +131,21 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
             var new_latitude = results.businesses[i].location.coordinate.latitude;
             var new_longitude = results.businesses[i].location.coordinate.longitude;
 
-            var nextMarker = L.marker([new_latitude, new_longitude]).bindPopup('<strong>' + results.businesses[i].name + '</strong><br>' + results.businesses[i].location.address);
+            var nextMarker = L.marker([new_latitude, new_longitude], {
+                icon: orangeMarker,
+                riseOnHover: true
+            }).bindPopup('<strong>' + results.businesses[i].name + '</strong><br>' + results.businesses[i].location.address);
             var venueName = results.businesses[i].name;
 
             if ($.inArray(venueName, markers) == -1) {
                 markers.push(venueName);
                 venuesLayerGroup.addLayer(nextMarker);
-                console.log("Markers contains: " + markers);
             }
         }
+
+        map.setView(new L.LatLng(results.businesses[0].location.coordinate.latitude, results.businesses[0].location.coordinate.longitude), 15, {
+            animate: true
+        });
 
         map.addLayer(venuesLayerGroup);
 
@@ -179,31 +188,23 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
             }],
             "startDuration": 1,
             "graphs": [{
-                "balloonText": "<span style='font-size:13px;'>[[title]] for [[category]]:<b>[[value]]</b></span>",
+                "balloonText": "[[title]]: <b>[[value]]</b><br>Average Rating: <b>[[ratings]]</b>",
+                "labelText": "[[ratings]]",
+                "labelColorField": "#fff",
+                "labelPosition": "top",
                 "title": "Number of Reviews",
                 "type": "column",
                 "fillAlphas": 1,
                 "fillColors": "#F0AD4E",
                 "lineColor": "#F0AD4E",
                 "valueField": "numberofratings",
-            }, {
-                "balloonText": "<span style='font-size:13px;'>[[title]] for [[category]]:<b>[[value]]</b></span>",
-                "bullet": "round",
-                "bulletBorderAlpha": 1,
-                "bulletColor": "#3A6D9A",
-                "useLineColorForBulletBorder": true,
-                "fillAlphas": 0,
-                "lineThickness": 2,
-                "lineAlpha": 1,
-                "lineColor": "#3A6D9A",
-                "bulletSize": 20,
-                "title": "Average Rating",
-                "valueField": "ratings"
+                "color": "#3A6D9A"
             }],
-            "rotate": true,
+            "rotate": false,
             "categoryField": "name",
             "categoryAxis": {
-                "gridPosition": "start"
+                "gridPosition": "start",
+                "autoWrap": true
             }
         });
     }
@@ -214,6 +215,12 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
 
         // display first venue's photos by default
         $scope.currentVenueID = 0;
+
+        var orangeMarker = L.AwesomeMarkers.icon({
+            prefix: 'fa',
+            icon: 'foursquare',
+            markerColor: 'orange'
+        });
 
         // sanitize venue urls
         for (var i = 0; i < results.groups[0].items.length; i++) {
@@ -230,14 +237,16 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
             var new_latitude = results.groups[0].items[i].venue.location.lat;
             var new_longitude = results.groups[0].items[i].venue.location.lng;
 
-            var nextMarker = L.marker([new_latitude, new_longitude]).bindPopup('<strong>' + results.groups[0].items[i].venue.name + '</strong><br>' + results.groups[0].items[i].venue.location.address);
+            var nextMarker = L.marker([new_latitude, new_longitude], {
+                icon: orangeMarker,
+                riseOnHover: true
+            }).bindPopup('<strong>' + results.groups[0].items[i].venue.name + '</strong><br>' + results.groups[0].items[i].venue.location.address);
             var venueName = results.groups[0].items[i].venue.name;
 
             // check if marker has already been added to map for each venue (by name)
             if ($.inArray(venueName, markers) == -1) {
                 markers.push(venueName);
                 venuesLayerGroup.addLayer(nextMarker);
-                console.log("Markers contains: " + markers);
             }
         }
 
@@ -278,50 +287,8 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
             });
         }
 
-        var chart2 = AmCharts.makeChart("chart-2", {
-            "type": "xy",
-            "fontFamily": "Lato",
-            "pathToImages": "http://www.amcharts.com/lib/3/images/",
-            "plotAreaBorderAlpha": 0.35,
-            "plotAreaBorderColor": "#F0AD4E",
-            "plotAreaFillAlphas": 0.50,
-            "plotAreaFillColors": "#F0AD4E",
-            "startDuration": 1.5,
-            "borderColor": "#FFFFFF",
-            "color": "#333",
-            "fontSize": 13,
-            "hideBalloonTime": 154,
-            "trendLines": [],
-            "theme": "light",
-            "titles": [],
-            "dataProvider": chart2data,
-            "valueAxes": [{
-                "position": "bottom",
-                "axisAlpha": 0,
-                "title": "Restaurant Average Rating"
-            }, {
-                "minMaxMultiplier": 1.2,
-                "axisAlpha": 0,
-                "position": "left",
-                "title": "Restaurant Price Tier"
-            }],
-            "graphs": [{
-                "balloonText": "Average Rating: <b>[[x]]</b><br> Price Tier: <b>[[y]]</b><br>Restaurant: <b>[[value]]</b>",
-                "bullet": "circle",
-                "bulletBorderAlpha": 0.2,
-                "bulletAlpha": 0.8,
-                "bulletSize": 30,
-                "lineAlpha": 0,
-                "lineColor": "#3a6d9a",
-                "fillAlphas": 0,
-                "valueField": "value",
-                "xField": "x",
-                "yField": "y",
-                "maxBulletSize": 100
-            }],
-            "marginLeft": 46,
-            "marginBottom": 35
-        });
+        console.log(chart2data);
+
 
         var chart3 = AmCharts.makeChart("chart-3", {
             "type": "pie",
@@ -353,6 +320,52 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
             },
             "titles": [],
             "dataProvider": chart3data
+        });
+
+        var chart2 = AmCharts.makeChart("chart-2", {
+            "type": "xy",
+            "fontFamily": "Lato",
+            "marginLeft": 200,
+            "pathToImages": "http://www.amcharts.com/lib/3/images/",
+            "plotAreaBorderAlpha": 0.35,
+            "plotAreaBorderColor": "#F89406",
+            "plotAreaFillAlphas": 0.50,
+            "plotAreaFillColors": "#FFFFFF",
+            "startDuration": 1.5,
+            "borderColor": "#FFFFFF",
+            "color": "#333",
+            "fontSize": 13,
+            "hideBalloonTime": 154,
+            "trendLines": [],
+            "theme": "light",
+            "titles": [],
+            "dataProvider": chart2data,
+            "valueAxes": [{
+                "position": "bottom",
+                "axisAlpha": 0,
+                "title": "Restaurant Average Rating"
+            }, {
+                "minMaxMultiplier": 1.2,
+                "axisAlpha": 0,
+                "position": "left",
+                "title": "Restaurant Price Tier"
+            }],
+            "graphs": [{
+                "balloonText": "Average Rating: <b>[[x]]</b><br>Price Tier: <b>[[y]]</b><br>Restaurant: <b>[[value]]</b>",
+                "bullet": "circle",
+                "bulletBorderAlpha": 0.2,
+                "bulletAlpha": 0.8,
+                "bulletSize": 30,
+                "lineAlpha": 0,
+                "lineColor": "#F89406",
+                "fillAlphas": 0,
+                "valueField": "value",
+                "xField": "x",
+                "yField": "y",
+                "maxBulletSize": 100
+            }],
+            "marginLeft": 46,
+            "marginBottom": 35
         });
 
     }

@@ -131,7 +131,7 @@
 										<img ng-src="{{venue.image_url}}" class="img-circle"/>
 									</div>
 									<div class="media-body">
-										<h3 class="media-heading text-center">{{venue.name}}</h3>
+										<h3 class="media-heading text-center">{{$index + 1 + '. '}}{{venue.name}}</h3>
 										<p class="text-center text-muted"><i>{{venue.location.neighborhoods[0]}}</i></p>
 										<hr style="width: 15%;">
 										<p class="snippet-text text-muted">&nbsp;&nbsp;{{venue.snippet_text}}</p>
