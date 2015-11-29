@@ -26,8 +26,8 @@
 								<img id="loading" ng-show="loadingLoc" src="../images/ajax-loader.gif"/>
 								<i class="fa fa-location-arrow fa-2x" ng-show="!loadingLoc"></i>
 							</div>
-							<input type="text" ng-model="location" ng-value="geoPosition" ng-change="change()" class="form-control" id="searchLocation" placeholder="What's your location?" aria-describedby="sizing-addon2" required></input>
-							<input type="text" ng-model="query" ng-change="change()" id="searchQuery" class="form-control" placeholder="What kind of food?" aria-describedby="sizing-addon2" required></input>
+							<input type="text" ng-model="location" ng-value="geoPosition" ng-change="change()" class="form-control" id="searchLocation" placeholder="What's your location?" aria-describedby="sizing-addon2" autocomplete="off" required></input>
+							<input type="text" ng-model="query" ng-change="change()" id="searchQuery" class="form-control" placeholder="What kind of food?" aria-describedby="sizing-addon2" autocomplete="off" required></input>
 							<div class="search-input-magnify">
 								<img id="loading" ng-show="loadingQuery" src="../images/ajax-loader.gif"/>
 								<i class="fa fa-search fa-2x" ng-show="!loadingQuery"></i>
