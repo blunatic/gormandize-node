@@ -59,10 +59,10 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
         geocoder.geocode({
             'latLng': locCurrent
         }, function(results, status) {
-            console.log(results);
+            // console.log(results);
             var locCountryNameCount = 0;
             var finalLocation = results[locCountryNameCount].formatted_address;
-            console.log(finalLocation);
+            // console.log("final location is: " + finalLocation);
             $scope.location = finalLocation;
             $scope.loadingLoc = false;
             $scope.$apply();
@@ -87,7 +87,7 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
         markers.length = 0;
 
         searchService.getSearch($scope.query, $scope.location).then(function(response) {
-            console.log(response);
+            // console.log(response);
             if (response.status == 200) {
 
                 $scope.yelpResults = response.data.yelp_response;
@@ -317,10 +317,10 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
                 "title": "Number of Reviews",
                 "type": "column",
                 "fillAlphas": 1,
-                "fillColors": "#FFFFFF",
-                "lineColor": "#F0AD4E",
+                "fillColors": "#337ab7",
+                "lineColor": "#337ab7",
                 "valueField": "averagerating",
-                "color": "#3A6D9A"
+                "color": "#F0AD4E"
             }],
             "rotate": false,
             "categoryField": "name",
@@ -369,10 +369,10 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
     function displayFoursquarePhotos(venueId) {
         $scope.displayPhotos = true;
 
-        console.log("current is " + $scope.currentVenueID);
+        // console.log("current venue is " + $scope.currentVenueID);
 
         photosService.getPhotos(venueId).then(function(response) {
-            console.log(response);
+            // console.log(response);
             if (response.status == 200) {
                 $scope.currentVenuePhotos = response.data.response.photos;
             } else {
