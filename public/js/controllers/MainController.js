@@ -317,8 +317,8 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
                 "title": "Number of Reviews",
                 "type": "column",
                 "fillAlphas": 1,
-                "fillColors": "#337ab7",
-                "lineColor": "#337ab7",
+                "fillColors": "#3A6D9A",
+                "lineColor": "#3A6D9A",
                 "valueField": "averagerating",
                 "color": "#F0AD4E"
             }],
