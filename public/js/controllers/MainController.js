@@ -68,7 +68,6 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
             $scope.$apply();
         });
 
-
     }
 
     $scope.change = function() {
@@ -99,10 +98,7 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
 
                 // show all sections
                 $scope.loadingQuery = false;
-                $scope.displayMap = true;
-                $scope.displayTable = true;
-                $scope.displayTips = true;
-                $scope.displayCharts = true;
+                $scope.displayResults = true;
 
                 // display results from both Yelp and Foursquare
                 displayYelpResults($scope.yelpResults);
@@ -249,7 +245,8 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
             }).bindPopup('<strong>' + results.groups[0].items[i].venue.name + '</strong><br>' + results.groups[0].items[i].venue.location.address);
             var venueName = results.groups[0].items[i].venue.name;
 
-            // check if marker has already been added to map for each venue (by name)
+            // check if marker has already been added to map for each venue (uniqueness is by venue name)
+            // only add marker if one doesn't exist already
             if ($.inArray(venueName, markers) == -1) {
                 markers.push(venueName);
                 venuesLayerGroup.addLayer(nextMarker);
@@ -275,15 +272,16 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
         // grab only top 10 results for chart 2 and 3
         for (var k = 0; k < chart2Count; k++) {
             priceTier = results.groups[0].items[k].venue.price;
+
             if (typeof(priceTier) != "undefined") {
                 chart2data.push({
-                    "y": results.groups[0].items[k].venue.price.tier,
-                    "x": results.groups[0].items[k].venue.rating,
-                    "value": results.groups[0].items[k].venue.name
+                    "name": results.groups[0].items[k].venue.name,
+                    "averagerating": results.groups[0].items[k].venue.rating,
+                    "pricetier": results.groups[0].items[k].venue.price.tier
                 });
             } else {
                 chart2data.push({
-                    "y": "Unavailable"
+                    "name": "Unavailable"
                 });
             }
 
@@ -293,8 +291,46 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
             });
         }
 
-        console.log(chart2data);
-
+        var chart2 = AmCharts.makeChart("chart-2", {
+            "type": "serial",
+            "fontFamily": "Cabin",
+            "theme": "none",
+            "legend": {
+                "useGraphSettings": true,
+                "markerSize": 12,
+                "valueWidth": 0,
+                "verticalGap": 0
+            },
+            "titles": [],
+            "dataProvider": chart2data,
+            "valueAxes": [{
+                "gridColor": "#FFFFFF",
+                "gridAlpha": 0.0,
+                "dashLength": 0
+            }],
+            "startDuration": 1,
+            "graphs": [{
+                "balloonText": "[[title]]: <b>[[pricetier]]</b><br>Average Rating: <b>[[averagerating]]</b>",
+                "labelText": "[[pricetier]]",
+                "labelColorField": "#fff",
+                "labelPosition": "top",
+                "title": "Number of Reviews",
+                "type": "column",
+                "fillAlphas": 1,
+                "fillColors": "#FFFFFF",
+                "lineColor": "#F0AD4E",
+                "valueField": "averagerating",
+                "color": "#3A6D9A"
+            }],
+            "rotate": false,
+            "categoryField": "name",
+            "categoryAxis": {
+                "gridPosition": "start",
+                "gridAlpha": 0,
+                "autoWrap": true
+            }
+        });
+    
 
         var chart3 = AmCharts.makeChart("chart-3", {
             "type": "pie",
@@ -326,52 +362,6 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
             },
             "titles": [],
             "dataProvider": chart3data
-        });
-
-        var chart2 = AmCharts.makeChart("chart-2", {
-            "type": "xy",
-            "fontFamily": "Cabin",
-            "marginLeft": 200,
-            "pathToImages": "http://www.amcharts.com/lib/3/images/",
-            "plotAreaBorderAlpha": 0.35,
-            "plotAreaBorderColor": "#F89406",
-            "plotAreaFillAlphas": 0.50,
-            "plotAreaFillColors": "#FFFFFF",
-            "startDuration": 1.5,
-            "borderColor": "#FFFFFF",
-            "color": "#333",
-            "fontSize": 13,
-            "hideBalloonTime": 154,
-            "trendLines": [],
-            "theme": "light",
-            "titles": [],
-            "dataProvider": chart2data,
-            "valueAxes": [{
-                "position": "bottom",
-                "axisAlpha": 0,
-                "title": "Restaurant Average Rating"
-            }, {
-                "minMaxMultiplier": 1.2,
-                "axisAlpha": 0,
-                "position": "left",
-                "title": "Restaurant Price Tier"
-            }],
-            "graphs": [{
-                "balloonText": "Average Rating: <b>[[x]]</b><br>Price Tier: <b>[[y]]</b><br>Restaurant: <b>[[value]]</b>",
-                "bullet": "circle",
-                "bulletBorderAlpha": 0.2,
-                "bulletAlpha": 0.8,
-                "bulletSize": 30,
-                "lineAlpha": 0,
-                "lineColor": "#F89406",
-                "fillAlphas": 0,
-                "valueField": "value",
-                "xField": "x",
-                "yField": "y",
-                "maxBulletSize": 100
-            }],
-            "marginLeft": 46,
-            "marginBottom": 35
         });
 
     }

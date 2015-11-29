@@ -71,71 +71,72 @@
 					</div>
 				</div>
 			</div>
-			<div id="test"></div>
 		</div>
-		<!-- Map section-->
-		<div class="map" ng-show="displayMap">
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-md-12" id="map">
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- Yelp Results section -->
-		<div class="yelp-results" ng-show="displayTable">
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-md-10 col-md-offset-1">
-						<h3 class="results-heading"><i class="fa fa-yelp" id="fa-yelp"></i> Yelp Results</h3>
-						<table datatable="ng" dt-options="dtOptions" dt-column-defs="dtColumnDefs" class="stripe" cellspacing="0" width="100%">
-							<!--Table Headers-->
-							<thead>
-								<tr>
-									<th> Result #</th>
-									<th> Restaurant</th>
-									<th> Address</th>
-									<th> Phone #</th>
-									<th> Distance</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr ng-repeat="venue in yelpResults.businesses">
-									<!--Insert Yelp Results into the table in rows here-->
-									<td>{{$index + 1}}</td>
-									<td><a ng-href="{{venue.url}}" target="__blank">{{venue.name}}</a></td>
-									<td>{{venue.location.address[0]}}</td>
-									<td>{{venue.display_phone}}</td>
-									<td>{{Math.round(100 * (venue.distance * 0.00062137)) / 100}} miles away</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- Yelp Tips section -->
-		<div class="yelp-tips" ng-show="displayTips">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-12">
-						<div class="row">
-							<div class="col-lg-12 text-center">
-								<h3 class="section-heading">Top restaurant tips</h3>
-								<h4 class="section-subheading text-muted">Here's what users are saying on Yelp...</h4>
-							</div>
+		<div class="display" ng-show="displayResults">
+			<!-- Map section-->
+			<div class="map">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-12" id="map">
 						</div>
-						<div class="row">
-							<div class="col-sm-4 text-center" ng-repeat="venue in yelpResults.businesses | limitTo: 3">
-								<div class="tips-wrapper">
-									<div class="tips-image">
-										<img ng-src="{{venue.image_url}}" class="img-circle"/>
-									</div>
-									<div class="media-body">
-										<h3 class="media-heading text-center">{{$index + 1 + '. '}}{{venue.name}}</h3>
-										<p class="text-center text-muted"><i>{{venue.location.neighborhoods[0]}}</i></p>
-										<hr style="width: 15%;">
-										<p class="snippet-text text-muted">&nbsp;&nbsp;{{venue.snippet_text}}</p>
+					</div>
+				</div>
+			</div>
+			<!-- Yelp Results section -->
+			<div class="yelp-results">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-10 col-md-offset-1">
+							<h3 class="results-heading"><i class="fa fa-yelp" id="fa-yelp"></i> Yelp Results</h3>
+							<table datatable="ng" dt-options="dtOptions" dt-column-defs="dtColumnDefs" class="stripe" cellspacing="0" width="100%">
+								<!--Table Headers-->
+								<thead>
+									<tr>
+										<th> Result #</th>
+										<th> Restaurant</th>
+										<th> Address</th>
+										<th> Phone #</th>
+										<th> Distance</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="venue in yelpResults.businesses">
+										<!--Insert Yelp Results into the table in rows here-->
+										<td>{{$index + 1}}</td>
+										<td><a ng-href="{{venue.url}}" target="__blank">{{venue.name}}</a></td>
+										<td>{{venue.location.address[0]}}</td>
+										<td>{{venue.display_phone}}</td>
+										<td>{{Math.round(100 * (venue.distance * 0.00062137)) / 100}} miles away</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Yelp Tips section -->
+			<div class="yelp-tips">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-lg-12 text-center">
+									<h3 class="section-heading">Top restaurant tips</h3>
+									<h4 class="section-subheading text-muted">Here's what users are saying on Yelp...</h4>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-4 text-center" ng-repeat="venue in yelpResults.businesses | limitTo: 3">
+									<div class="tips-wrapper">
+										<div class="tips-image">
+											<img ng-src="{{venue.image_url}}" class="img-circle"/>
+										</div>
+										<div class="media-body">
+											<h3 class="media-heading text-center">{{$index + 1 + '. '}}{{venue.name}}</h3>
+											<p class="text-center text-muted"><i>{{venue.location.neighborhoods[0]}}</i></p>
+											<hr style="width: 15%;">
+											<p class="snippet-text text-muted">&nbsp;&nbsp;{{venue.snippet_text}}</p>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -143,94 +144,94 @@
 					</div>
 				</div>
 			</div>
-		</div>
-		<!-- Foursquare Results section -->
-		<div class="fs-results" ng-show="displayTable">
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-md-10 col-md-offset-1">
-						<h3 class="section-heading pull-right"><i class="fa fa-foursquare" id="fa-fs"></i> Foursquare Results</h3>
-						<table datatable="ng" dt-options="dtOptions" dt-column-defs="dtColumnDefs" class="stripe" cellspacing="0" width="100%">
-							<!--Table Headers-->
-							<thead>
-								<tr>
-									<th> Result #</th>
-									<th> Restaurant</th>
-									<th> Address</th>
-									<th> Phone #</th>
-									<th> Menu URL</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr ng-repeat="venue in fsResults.groups[0].items">
-									<!--Insert Foursquare Results into the table in rows here-->
-									<td>{{$index + 1}}</td>
-									<td><a ng-href="{{venue.venue.id}}" target="__blank">{{venue.venue.name}}</a></td>
-									<td>{{venue.venue.location.address}}</td>
-									<td>{{venue.venue.contact.formattedPhone}}</td>
-									<td><a ng-href="{{venue.venue.menu.url}}" target="__blank">{{venueMenus[$index]}}</a></td>
-								</tr>
-							</tbody>
-						</table>
+			<!-- Foursquare Results section -->
+			<div class="fs-results">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-10 col-md-offset-1">
+							<h3 class="section-heading pull-right"><i class="fa fa-foursquare" id="fa-fs"></i> Foursquare Results</h3>
+							<table datatable="ng" dt-options="dtOptions" dt-column-defs="dtColumnDefs" class="stripe" cellspacing="0" width="100%">
+								<!--Table Headers-->
+								<thead>
+									<tr>
+										<th> Result #</th>
+										<th> Restaurant</th>
+										<th> Address</th>
+										<th> Phone #</th>
+										<th> Menu URL</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="venue in fsResults.groups[0].items">
+										<!--Insert Foursquare Results into the table in rows here-->
+										<td>{{$index + 1}}</td>
+										<td><a ng-href="{{venue.venue.id}}" target="__blank">{{venue.venue.name}}</a></td>
+										<td>{{venue.venue.location.address}}</td>
+										<td>{{venue.venue.contact.formattedPhone}}</td>
+										<td><a ng-href="{{venue.venue.menu.url}}" target="__blank">{{venueMenus[$index]}}</a></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<!-- Foursquare Images section -->
-		<div class="fs-images" ng-show="displayPhotos">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-12 text-center">
-						<h3 class="section-heading">{{fsResults.groups[0].items[currentVenueID].venue.name}}</h3>
-						<h4 class="section-subheading text-muted">User Photos</h4>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-1">
-						<div class="vcenter">
-							<button class="btn btn-default btn-lg vert-btn" ng-click="previousPhoto()"><span class="glyphicon glyphicon-chevron-left"></span></button>
+			<!-- Foursquare Images section -->
+			<div class="fs-images">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-12 text-center">
+							<h3 class="section-heading">{{fsResults.groups[0].items[currentVenueID].venue.name}}</h3>
+							<h4 class="section-subheading text-muted">User Photos</h4>
 						</div>
 					</div>
-					<div class="col-md-10 fs-images-wrapper">
-						<div class="fs-images-repeat" ng-repeat="photo in currentVenuePhotos.items">
-							<div class="each-image">
-								<img ng-src="{{photo.prefix + '150x150' + photo.suffix}}"/>
+					<div class="row">
+						<div class="col-md-1">
+							<div class="vcenter">
+								<button class="btn btn-default btn-lg vert-btn" ng-click="previousPhoto()"><span class="glyphicon glyphicon-chevron-left"></span></button>
 							</div>
 						</div>
+						<div class="col-md-10 fs-images-wrapper">
+							<div class="fs-images-repeat" ng-repeat="photo in currentVenuePhotos.items">
+								<div class="each-image">
+									<img ng-src="{{photo.prefix + '150x150' + photo.suffix}}"/>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-1">
+							<div class="vcenter">
+							<button class="btn btn-default btn-lg vert-btn" ng-click="nextPhoto()"><span class="glyphicon glyphicon-chevron-right"></span ></button>
+						</div>
 					</div>
-					<div class="col-md-1">
-						<div class="vcenter">
-						<button class="btn btn-default btn-lg vert-btn" ng-click="nextPhoto()"><span class="glyphicon glyphicon-chevron-right"></span ></button>
+				</div>
+			</div>
+		</div>
+		<!-- Charts section -->
+		<div class="chart">
+			<div class="container">
+				<div class="row" id="chart-row-1">
+					<div class="col-md-12">
+						<h3 class="section-heading text-center"><i class="fa fa-yelp fa-1x" id="fa-yelp"></i> Total Number of Reviews vs. Average Rating for Top 10 Results</h3>
+						<div id="chart-1"></div>
+					</div>
+				</div>
+				<div class="row" id="chart-row-2">
+					<div class="col-md-12">
+						<h3 class="section-heading text-center"><i class="fa fa-foursquare fa-1x" id="fa-fs"></i> Restaurant Average Rating vs. Restaurant Price Tier</h3>
+						<div id="chart-2"></div>
+					</div>
+				</div>
+				<div class="row" id="chart-row-3">
+					<div class="col-md-12">
+						<h3 class="section-heading text-right"><i class="fa fa-foursquare fa-1x" id="fa-fs"></i> Total Number of Checkins for Top 10 Results</h3>
+						<div id="chart-3"></div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- Charts section -->
-	<div class="chart" ng-show="displayCharts">
-		<div class="container">
-			<div class="row" id="chart-row-1">
-				<div class="col-md-12">
-					<h3 class="section-heading text-center"><i class="fa fa-yelp fa-1x" id="fa-yelp"></i> Total Number of Reviews vs. Average Rating for Top 10 Results</h3>
-					<div id="chart-1"></div>
-				</div>
-			</div>
-			<div class="row" id="chart-row-2">
-				<div class="col-md-12">
-					<h3 class="section-heading"><i class="fa fa-foursquare fa-1x" id="fa-fs"></i> Restaurant Average Rating vs. Restaurant Price Tier</h3>
-					<div id="chart-2"></div>
-				</div>
-			</div>
-			<div class="row" id="chart-row-3">
-				<div class="col-md-12">
-					<h3 class="section-heading text-right"><i class="fa fa-foursquare fa-1x" id="fa-fs"></i> Total Number of Checkins for Top 10 Results</h3>
-					<div id="chart-3"></div>
-				</div>
-			</div>
-		</div>
-	</div>
-<footer>
-	<% include ../partials/footer %>
-</footer>
+	<footer>
+		<% include ../partials/footer %>
+	</footer>
 </body>
 </html>
