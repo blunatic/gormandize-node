@@ -7,6 +7,7 @@ var request = require('request');
 var bodyParser = require('body-parser');
 var config = require('config');
 var async = require('async');
+var apicache = require('apicache').options({ debug: true }).middleware;
 
 var yelp_consumer_key, yelp_consumer_secret, yelp_token, yelp_token_secret, fs_client_id, fs_client_secret, fs_push_secret, fs_api_version;
 
@@ -54,7 +55,7 @@ router.get('/', function(req, res) {
 });
 
 // base search route for yelp
-router.get('/search?', function(req, res) {
+router.get('/search?', apicache('5 minutes'), function(req, res) {
     var q = req.query.q;
     var loc = req.query.loc;
     var results = [];
@@ -108,10 +109,16 @@ router.get('/search?', function(req, res) {
                 console.log(err);
                 return;
             } else {
-                res.send({
-                    yelp_response: results[0],
-                    fs_response: results[1]
-                });
+                // verify there's results from yelp
+                if (results[0].total !== 0) {
+                    res.send({
+                        yelp_response: results[0],
+                        fs_response: results[1]
+                    });
+                } else{
+                    // no results, return 204 - no content
+                    res.status(204).send('Sorry we cannot find that!');
+                }
             }
 
         });
@@ -121,12 +128,13 @@ router.get('/search?', function(req, res) {
 router.get('/fs_photos?', function(req, res) {
     var venueId = req.query.venue;
 
-    foursquare.venues.photos(venueId, {limit: 18}, function(error, response) {
+    foursquare.venues.photos(venueId, {
+        limit: 18
+    }, function(error, response) {
         if (error) {
             console.log(error);
             res.send("Error!" + error);
         } else {
-            console.log("Response from backend is" + response);
             res.send(response);
         }
     });
@@ -140,10 +148,6 @@ router.get('/about', function(req, res) {
 
 router.get('/help', function(req, res) {
     res.render('pages/help');
-});
-
-router.get('/tech', function(req, res) {
-    res.render('pages/tech');
 });
 
 // 404 handling

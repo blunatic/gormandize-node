@@ -1,5 +1,5 @@
 // main app controller
-angular.module('gormandize').controller('MainController', function($scope, $filter, $http, $sce, $location, DTOptionsBuilder, DTColumnDefBuilder, searchService, photosService) {
+angular.module('gormandize').controller('MainController', function($scope, $filter, $http, $sce, DTOptionsBuilder, DTColumnDefBuilder, searchService, photosService) {
     var pendingSearch;
     var map;
     var markers = [];
@@ -27,7 +27,7 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
             detectRetina: true
         }).addTo(map);
 
-        $scope.dtOptions = DTOptionsBuilder.newOptions().withOption('bFilter', false).withDisplayLength(5).withLanguage({
+        $scope.dtOptions = DTOptionsBuilder.newOptions().withOption('responsive', true).withOption('bFilter', false).withDisplayLength(5).withLanguage({
             "sLengthMenu": ""
         });
         $scope.dtColumnDefs = [
@@ -41,7 +41,7 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
         $scope.loadingLoc = true;
 
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showPosition);
+            navigator.geolocation.getCurrentPosition(getPosition);
         } else {
             console.log("Geolocation is not supported by this browser.");
             alert('Unabled to get location due to browser location settings being disabled.');
@@ -49,7 +49,7 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
     };
 
     // show position on map based on user location entered
-    function showPosition(position) {
+    function getPosition(position) {
         var locCurrent = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
         map.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), 12, {
             animate: true
@@ -90,16 +90,29 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
         searchService.getSearch($scope.query, $scope.location).then(function(response) {
             console.log(response);
             if (response.status == 200) {
+
                 $scope.yelpResults = response.data.yelp_response;
                 $scope.fsResults = response.data.fs_response.response;
 
                 // clear out any previous venues on map
                 venuesLayerGroup.clearLayers();
 
+                // show all sections
+                $scope.loadingQuery = false;
+                $scope.displayMap = true;
+                $scope.displayTable = true;
+                $scope.displayTips = true;
+                $scope.displayCharts = true;
+
                 // display results from both Yelp and Foursquare
                 displayYelpResults($scope.yelpResults);
                 displayFoursquareResults($scope.fsResults);
+
+                // scroll to map after map's DOM element is visible
+                setTimeout(scrollToMap, 100);
+
             } else {
+                // show no results text
                 $scope.noResults = true;
                 $scope.loadingQuery = false;
             }
@@ -108,11 +121,6 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
     }
 
     function displayYelpResults(results) {
-        $scope.loadingQuery = false;
-        $scope.displayMap = true;
-        $scope.displayTable = true;
-        $scope.displayTips = true;
-        $scope.displayCharts = true;
 
         var orangeMarker = L.AwesomeMarkers.icon({
             prefix: 'fa',
@@ -143,7 +151,7 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
             }
         }
 
-        map.setView(new L.LatLng(results.businesses[0].location.coordinate.latitude, results.businesses[0].location.coordinate.longitude), 15, {
+        map.setView(new L.LatLng(results.businesses[0].location.coordinate.latitude, results.businesses[0].location.coordinate.longitude), 16, {
             animate: true
         });
 
@@ -168,10 +176,8 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
 
         var chart1 = AmCharts.makeChart("chart-1", {
             "type": "serial",
-            "fontFamily": "Lato",
+            "fontFamily": "Cabin",
             "theme": "none",
-            "handDrawn": true,
-            "handDrawScatter": 3,
             "legend": {
                 "useGraphSettings": true,
                 "markerSize": 12,
@@ -181,10 +187,9 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
             "titles": [],
             "dataProvider": chart1data,
             "valueAxes": [{
-                "minorGridAlpha": 0.08,
-                "minorGridEnabled": true,
-                "position": "top",
-                "axisAlpha": 0
+                "gridColor": "#FFFFFF",
+                "gridAlpha": 0.0,
+                "dashLength": 0
             }],
             "startDuration": 1,
             "graphs": [{
@@ -204,6 +209,7 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
             "categoryField": "name",
             "categoryAxis": {
                 "gridPosition": "start",
+                "gridAlpha": 0,
                 "autoWrap": true
             }
         });
@@ -292,7 +298,7 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
 
         var chart3 = AmCharts.makeChart("chart-3", {
             "type": "pie",
-            "fontFamily": "Lato",
+            "fontFamily": "Cabin",
             "pathToImages": "http://cdn.amcharts.com/lib/3/images/",
             "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
             "labelRadius": 27,
@@ -324,7 +330,7 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
 
         var chart2 = AmCharts.makeChart("chart-2", {
             "type": "xy",
-            "fontFamily": "Lato",
+            "fontFamily": "Cabin",
             "marginLeft": 200,
             "pathToImages": "http://www.amcharts.com/lib/3/images/",
             "plotAreaBorderAlpha": 0.35,
@@ -383,6 +389,13 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
                 console.log("error!");
             }
         });
+    }
+
+    function scrollToMap() {
+        $("html, body").animate({
+            scrollTop: $('.map').offset().top - 80
+        }, 2000);
+
     }
 
     $scope.nextPhoto = function() {

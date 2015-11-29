@@ -14,6 +14,7 @@
   "author": "Brendan Luna <brendanluna1@gmail.com> (http://brendanluna.com)",
   "license": "ISC",
   "dependencies": {
+    "apicache": "0.0.12",
     "async": "^1.5.0",
     "body-parser": "^1.14.1",
     "config": "^1.16.0",

@@ -26,7 +26,7 @@
 								<img id="loading" ng-show="loadingLoc" src="../images/ajax-loader.gif"/>
 								<i class="fa fa-location-arrow fa-2x" ng-show="!loadingLoc"></i>
 							</div>
-							<input type="text" ng-model="location" ng-value="geoPosition" class="form-control" id="searchLocation" placeholder="What's your location?" aria-describedby="sizing-addon2" required></input>
+							<input type="text" ng-model="location" ng-value="geoPosition" ng-change="change()" class="form-control" id="searchLocation" placeholder="What's your location?" aria-describedby="sizing-addon2" required></input>
 							<input type="text" ng-model="query" ng-change="change()" id="searchQuery" class="form-control" placeholder="What kind of food?" aria-describedby="sizing-addon2" required></input>
 							<div class="search-input-magnify">
 								<img id="loading" ng-show="loadingQuery" src="../images/ajax-loader.gif"/>
@@ -71,6 +71,7 @@
 					</div>
 				</div>
 			</div>
+			<div id="test"></div>
 		</div>
 		<!-- Map section-->
 		<div class="map" ng-show="displayMap">
@@ -205,30 +206,29 @@
 			</div>
 		</div>
 	</div>
-</div>
-<!-- Charts section -->
-<div class="chart" ng-show="displayCharts">
-	<div class="container">
-		<div class="row" id="chart-row-1">
-			<div class="col-md-12">
-				<h3 class="section-heading text-center"><i class="fa fa-yelp fa-1x" id="fa-yelp"></i> Total Number of Reviews vs. Average Rating for Top 10 Results</h3>
-				<div id="chart-1"></div>
+	<!-- Charts section -->
+	<div class="chart" ng-show="displayCharts">
+		<div class="container">
+			<div class="row" id="chart-row-1">
+				<div class="col-md-12">
+					<h3 class="section-heading text-center"><i class="fa fa-yelp fa-1x" id="fa-yelp"></i> Total Number of Reviews vs. Average Rating for Top 10 Results</h3>
+					<div id="chart-1"></div>
+				</div>
 			</div>
-		</div>
-		<div class="row" id="chart-row-2">
-			<div class="col-md-12">
-				<h3 class="section-heading"><i class="fa fa-foursquare fa-1x" id="fa-fs"></i> Restaurant Average Rating vs. Restaurant Price Tier</h3>
-				<div id="chart-2"></div>
+			<div class="row" id="chart-row-2">
+				<div class="col-md-12">
+					<h3 class="section-heading"><i class="fa fa-foursquare fa-1x" id="fa-fs"></i> Restaurant Average Rating vs. Restaurant Price Tier</h3>
+					<div id="chart-2"></div>
+				</div>
 			</div>
-		</div>
-		<div class="row" id="chart-row-3">
-			<div class="col-md-12">
-				<h3 class="section-heading text-right"><i class="fa fa-foursquare fa-1x" id="fa-fs"></i> Total Number of Checkins for Top 10 Results</h3>
-				<div id="chart-3"></div>
+			<div class="row" id="chart-row-3">
+				<div class="col-md-12">
+					<h3 class="section-heading text-right"><i class="fa fa-foursquare fa-1x" id="fa-fs"></i> Total Number of Checkins for Top 10 Results</h3>
+					<div id="chart-3"></div>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
 <footer>
 	<% include ../partials/footer %>
 </footer>
