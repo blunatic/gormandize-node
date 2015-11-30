@@ -12,8 +12,17 @@ var apicache = require('apicache').options({ debug: true }).middleware;
 var yelp_consumer_key, yelp_consumer_secret, yelp_token, yelp_token_secret, fs_client_id, fs_client_secret, fs_push_secret, fs_api_version;
 
 if (process.env.NODE_ENV === 'production') {
-    // fill in with config variables in heroku
+    // heroku config vars
+    yelp_consumer_key = process.env.YELP_CONSUMER_KEY;
+    yelp_consumer_secret = process.env.YELP_CONSUMER_SECRET;
+    yelp_token = process.env.YELP_TOKEN;
+    yelp_token_secret = process.env.YELP_TOKEN_SECRET;
+    fs_client_id = process.env.FS_CLIENT_ID;
+    fs_client_secret = process.env.FS_CLIENT_SECRET;
+    fs_push_secret = process.env.FS_PUSH_SECRET;
+    fs_api_version = process.env.FS_API_VERSION;
 } else {
+    // development config vars
     yelp_consumer_key = config.get('yelp-consumer-key');
     yelp_consumer_secret = config.get('yelp-consumer-secret');
     yelp_token = config.get('yelp-token');
