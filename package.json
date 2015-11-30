@@ -4,6 +4,7 @@
   "description": "A web app for analyzing data about restaurants and locations nearby.",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
