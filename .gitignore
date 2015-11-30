@@ -2,6 +2,7 @@
 ######################
 config/
 .env
+Procfile
 
 # OS generated #
 ######################
