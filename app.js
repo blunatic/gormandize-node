@@ -13,14 +13,14 @@ var yelp_consumer_key, yelp_consumer_secret, yelp_token, yelp_token_secret, fs_c
 
 if (process.env.NODE_ENV === 'production') {
     // heroku config vars
-    yelp_consumer_key = config.get('yelp-consumer-key');
-    yelp_consumer_secret = config.get('yelp-consumer-secret');
-    yelp_token = config.get('yelp-token');
-    yelp_token_secret = config.get('yelp-token-secret');
-    fs_client_id = config.get('fs-client-id');
-    fs_client_secret = config.get('fs-client-secret');
-    fs_push_secret = config.get('fs-push-secret');
-    fs_api_version = config.get('fs-api-version');
+    yelp_consumer_key = process.env.YELP_CONSUMER_KEY;
+    yelp_consumer_secret = process.env.YELP_CONSUMER_SECRET;
+    yelp_token = process.env.YELP_TOKEN;
+    yelp_token_secret = process.env.YELP_TOKEN_SECRET;
+    fs_client_id = process.env.FS_CLIENT_ID;
+    fs_client_secret = process.env.FS_CLIENT_SECRET;
+    fs_push_secret = process.env.FS_PUSH_SECRET;
+    fs_api_version = process.env.FS_API_VERSION;
 } else {
     // development config vars
     yelp_consumer_key = config.get('yelp-consumer-key');
