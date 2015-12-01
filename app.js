@@ -40,6 +40,8 @@ var yelp = require('yelp').createClient({
     token_secret: yelp_token_secret
 });
 
+console.log(process.env.YELP_CONSUMER_KEY);
+
 var foursquare = require('node-foursquare-venues')(fs_client_id, fs_client_secret, fs_api_version);
 
 var port = process.env.PORT || 8080;
@@ -120,6 +122,7 @@ router.get('/search?', apicache('5 minutes'), function(req, res) {
             } else {
                 // verify there's results from yelp
                 if (results[0].total !== 0) {
+                    console.log(results);
                     res.send({
                         yelp_response: results[0],
                         fs_response: results[1]
