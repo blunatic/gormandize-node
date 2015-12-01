@@ -7,7 +7,7 @@ angular.module('gormandize').factory('searchService', function($http) {
             // return promise to data
             return $http.get('/search?q=' + query + '&loc=' + location).then(function(response) {
                 // resolve the promise as the data
-                console.log(response);
+                // console.log(response);
                 return response;
             });
         }
@@ -21,7 +21,7 @@ angular.module('gormandize').factory('photosService', function($http) {
             // return promise to data
             return $http.get('/fs_photos?venue=' + venueId).then(function(response) {
                 // resolve the promise as the data
-                console.log(response);
+                // console.log(response);
                 return response;
             });
         }
