@@ -384,7 +384,7 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
     function scrollToMap() {
         $("html, body").animate({
             scrollTop: $('.map').offset().top - 80
-        }, 2000);
+        }, 1000);
 
     }
 
