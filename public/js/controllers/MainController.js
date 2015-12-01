@@ -314,7 +314,7 @@ angular.module('gormandize').controller('MainController', function($scope, $filt
                 "labelText": "[[pricetier]]",
                 "labelColorField": "#fff",
                 "labelPosition": "top",
-                "title": "Price Tier",
+                "title": "Average Rating",
                 "type": "column",
                 "fillAlphas": 1,
                 "fillColors": "#3A6D9A",
