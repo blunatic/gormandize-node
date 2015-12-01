@@ -41,6 +41,10 @@ var yelp = require('yelp').createClient({
 });
 
 console.log(process.env.YELP_CONSUMER_KEY);
+console.log(process.env.YELP_CONSUMER_SECRET);
+console.log(process.env.YELP_TOKEN);
+console.log(process.env.YELP_TOKEN_SECRET);
+
 
 var foursquare = require('node-foursquare-venues')(fs_client_id, fs_client_secret, fs_api_version);
 
