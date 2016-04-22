@@ -19,7 +19,6 @@ if (process.env.NODE_ENV === 'production') {
     yelp_token_secret = process.env.YELP_TOKEN_SECRET;
     fs_client_id = process.env.FS_CLIENT_ID;
     fs_client_secret = process.env.FS_CLIENT_SECRET;
-    fs_push_secret = process.env.FS_PUSH_SECRET;
     fs_api_version = process.env.FS_API_VERSION;
 } else {
     // development config vars
@@ -29,7 +28,6 @@ if (process.env.NODE_ENV === 'production') {
     yelp_token_secret = config.get('yelp-token-secret');
     fs_client_id = config.get('fs-client-id');
     fs_client_secret = config.get('fs-client-secret');
-    fs_push_secret = config.get('fs-push-secret');
     fs_api_version = config.get('fs-api-version');
 }
 
@@ -68,7 +66,6 @@ router.get('/search?', apicache('5 minutes'), function(req, res) {
     var q = req.query.q;
     var loc = req.query.loc;
     var results = [];
-
     // yelp.search({term: q, location: loc, limit: 20}, function(error, data){
     async.parallel([
             /*
@@ -118,6 +115,7 @@ router.get('/search?', apicache('5 minutes'), function(req, res) {
                 console.log(err);
                 return;
             } else {
+                console.log(results);
                 // verify there's results from yelp
                 if (results[0].total !== 0) {
                     res.send({
@@ -167,4 +165,4 @@ router.use(function(req, res, next) {
 app.use('/', router);
 
 app.listen(port);
-console.log("Server started!");
+console.log("Server started on port " + port);
